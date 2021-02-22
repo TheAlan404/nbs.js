@@ -2,6 +2,16 @@
  Parse NBS (Note Block Song / Note Block Studio)  files
 Pull Requests and issues are welcome!!
 
+# Example
+
+```js
+const NBS = require("nbs.js")
+
+let song = NBS.loadSong("./song.nbs")
+
+console.log(song)
+```
+
 # API
 
 ## NBS.loadSong(filename)
