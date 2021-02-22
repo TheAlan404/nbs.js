@@ -98,8 +98,7 @@ const instrumentIds = {
 
 
 function parse(data){
-	let bb = ByteBuffer.fromHex(data.toString("hex"), true);	
-	bb.append(f);
+	let bb = ByteBuffer.fromHex(data.toString("hex"), true);
 	bb.offset = 0;
 	
 	bb.readShort();

@@ -1,6 +1,6 @@
 {
   "name": "nbs.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parse NBS (Note Block Song / Note Block Studio)  files Pull Requests and issues are welcome!!",
   "main": "index.js",
   "scripts": {
