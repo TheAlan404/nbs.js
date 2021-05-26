@@ -1,8 +1,27 @@
 const ByteBuffer = require("bytebuffer");
+const { convertMidi, convertNote, parseLyrics } = require("./midis.js");
 const fs = require("fs");
 
+/**
+* Tick is the offset of the note from the starting position.
+* @typedef {tick}
+* @type {number}
+*/
 
 class Song {
+	/**
+	* An NBS song.
+	* @param {object} data
+	* @param {string} data.title
+	* @param {string} data.author
+	* @param {string} data.description
+	* @param {string} data.original_author
+	* @param {string} data.imported_name
+	* @param {number} data.tempo
+	* @param {number} data.length
+	* @param {number} data.songHeight
+	* @param {object.<string, Layer>} data.layers
+	*/
 	constructor(data={}){
 		this.title = data.title || ""
 		this.author = data.author || "";
@@ -17,24 +36,55 @@ class Song {
 };
 
 class Layer {
+	/**
+	* A layer that has notes.
+	* @param {object} data
+	* @param {number} [data.volume=100] - percentage
+	* @param {string} [data.name]
+	* @param {object.<tick, Note>}  data.notes
+	*/
 	constructor(){
 		this.notes = {};
 		this.volume = 100;
 		this.name = "";
 	};
+	/**
+	* Sets a note in the layer.
+	* @param {tick|number} tick
+	* @param {Note} note
+	*/
 	setNote(tick, note){
 		this.notes[tick] = note;
 	};
 };
 
 class Note {
+	/**
+	* Represents a note.
+	* @param {string} instrument
+	* @param {number} key
+	* @property {number} pitch - used in the minecraft client. min 0 max 2
+	*/
 	constructor(instrument, key){
 		this.instrument = instrument;
         this.key = key;
 		this.pitch = keyToPitch[this.key-33] || 0;
 	};
+	/**
+	* Gives you a packet to use with minecraft-protocol.
+	* The packets name is "sound_effect"
+	* For it to properly work, set the `x`, `y` and `z` properties to the source coordinate multiplied by 8.
+	* example, if the note must be played at coordinate 2,2,1 ; the xyz on the packet must be 16,16,8
+	* @returns {object} packet
+	* @example client.write("sound_effect", {
+	* 	...note.packet,
+	*	x: client.pos.x * 8,
+	*	y: client.pos.y * 8,
+	*	z: client.pos.z * 8,
+	* });
+	*/
 	get packet(){
-		// note: packet name is "sound_effect" :3
+		// note: packet name is "" :3
 		return {
 			soundId: instrumentIds[this.instrument] || 76,
 			soundCategory: 0,
@@ -222,4 +272,5 @@ module.exports = {
 	Note,
 	keyToPitch,
 	instrumentIds,
+	midi: { convertMidi, convertNote, parseLyrics },
 };
