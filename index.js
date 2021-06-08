@@ -20,7 +20,7 @@ class Song {
 	* @param {number} data.tempo
 	* @param {number} data.length
 	* @param {number} data.songHeight
-	* @param {object.<string, Layer>} data.layers
+	* @param {{[key:string]:Layer}} data.layers
 	*/
 	constructor(data={}){
 		this.title = data.title || ""
