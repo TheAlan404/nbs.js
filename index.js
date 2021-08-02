@@ -1,5 +1,4 @@
 const ByteBuffer = require("bytebuffer");
-const { convertMidi, convertNote, parseLyrics } = require("./midis.js");
 const fs = require("fs");
 
 /**
@@ -272,5 +271,4 @@ module.exports = {
 	Note,
 	keyToPitch,
 	instrumentIds,
-	midi: { convertMidi, convertNote, parseLyrics },
 };
